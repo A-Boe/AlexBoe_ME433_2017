@@ -8687,9 +8687,9 @@ Source: http://www.cypressindustries.com/pdf/32005-601.pdf</description>
 <pin name="S2" x="0" y="-2.54" visible="off" length="short" direction="pas" rot="R90"/>
 </symbol>
 <symbol name="MCP1702">
-<pin name="1.VIN" x="-17.78" y="0" length="middle" rot="R180"/>
-<pin name="2.GND" x="0" y="-10.16" length="middle" rot="R270"/>
-<pin name="3.VOUT" x="17.78" y="0" length="middle"/>
+<pin name="1.VIN" x="-22.86" y="0" length="middle"/>
+<pin name="2.GND" x="0" y="-15.24" length="middle" rot="R90"/>
+<pin name="3.VOUT" x="22.86" y="0" length="middle" rot="R180"/>
 <text x="-12.7" y="2.54" size="1.27" layer="94">&gt;NAME</text>
 <text x="-12.7" y="2.54" size="1.27" layer="94">&gt;NAME</text>
 <text x="-12.7" y="2.54" size="1.27" layer="94">&gt;NAME</text>
@@ -11901,6 +11901,23 @@ Source: www.cypressindustries.com</description>
 <attribute name="OC_FARNELL" value="unknown" constant="no"/>
 <attribute name="OC_NEWARK" value="unknown" constant="no"/>
 </technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="MCP1702">
+<gates>
+<gate name="G$1" symbol="MCP1702" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TO92">
+<connects>
+<connect gate="G$1" pin="1.VIN" pad="1"/>
+<connect gate="G$1" pin="2.GND" pad="2"/>
+<connect gate="G$1" pin="3.VOUT" pad="3"/>
+</connects>
+<technologies>
+<technology name=""/>
 </technologies>
 </device>
 </devices>
