@@ -80,14 +80,16 @@ int main() {
         }
         else    {
             set_expander(0,0);
-            // LATAbits.LATA4 = 0
         }
     }
 }
 
 void init_expander()    {
+    ANSELBbits.ANSB2 = 0;
+    ANSELBbits.ANSB3 = 0;
+    i2c2_master_setup();
     i2c2_master_start();
-    i2c2_master_send(SLAVE_ADDR << 1 | 0);
+    i2c2_master_send(SLAVE_ADDR);
     i2c2_master_send(0); // io
     i2c2_master_send(0b00001111);
     i2c2_master_stop();
