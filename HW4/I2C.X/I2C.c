@@ -101,12 +101,12 @@ void init_expander()    {
     i2c2_master_stop();
 }
 
-unsigned char get_expander()    {
+unsigned char get_expander(void)    {
     i2c2_master_start();
-    i2c2_master_send(SLAVE_ADDR << 1| 0);
+    i2c2_master_send(SLAVE_ADDR);
     i2c2_master_send(0x9);
     i2c2_master_restart();
-    i2c2_master_send(SLAVE_ADDR << 1 | 1);
+    i2c2_master_send(SLAVE_ADDR);
     
     unsigned char a = i2c2_master_recv();
     i2c2_master_ack(1);
@@ -115,16 +115,23 @@ unsigned char get_expander()    {
     return a;
 }
 
-void set_expander(unsigned char value)  {
-    i2c2_master_start();
-    i2c2_master_send(SLAVE_ADDR << 1 | 0);
-    i2c2_master_send(0x9);
+void set_expander(unsigned char pin, unsigned char value)  {
+    
+    unsigned char val = get_expander();
+    
+  
     
     if (value == 0) {
-        i2c2_master_send(0);
+        val = (val & ~(1 << pin));
     }
     else    {
-        i2c2_master_send(1);
+        val = (val | (1 << pin));;
     }
+    
+    i2c2_master_start();
+    i2c2_master_send(SLAVE_ADDR);
+    i2c2_master_send(0x9);
+    i2c2_master_send(val);
+    i2c2_master_stop();
 }
 
