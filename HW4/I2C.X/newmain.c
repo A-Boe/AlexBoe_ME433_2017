@@ -50,7 +50,7 @@
 
 void init_expander(void);
 unsigned char get_expander(void);
-void set_expander(unsigned char);
+void set_expander(unsigned char pin, unsigned char val);
 
 int main() {
     __builtin_disable_interrupts();
@@ -75,11 +75,11 @@ int main() {
         
         pins = get_expander();
         if(pins&1 == 0b1)   {
-            set_expander(1);
+            set_expander(0,1);
             
         }
         else    {
-            set_expander(0);
+            set_expander(0,0);
         }
     }
 }
