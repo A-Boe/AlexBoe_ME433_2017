@@ -66,7 +66,7 @@ int main() {
 
     // disable JTAG to get pins back
     DDPCONbits.JTAGEN = 0;
-    
+    init_expander();
     unsigned char pins = 0;
     
     while(1)    {
