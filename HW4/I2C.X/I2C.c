@@ -90,15 +90,15 @@ void init_expander()    {
     i2c2_master_setup();
     i2c2_master_start();
     i2c2_master_send(SLAVE_ADDR);
-    i2c2_master_send(0); // io
-    i2c2_master_send(0b00001111);
+    i2c2_master_send(0x6);
+    i2c2_master_send(0b10000000);
     i2c2_master_stop();
     
     i2c2_master_start();
-    i2c2_master_send(SLAVE_ADDR << 1| 0);
-    i2c2_master_send(0x6);   // pullups
-    i2c2_master_send(0b00001111);
-    i2c2_master_stop;
+    i2c2_master_send(SLAVE_ADDR);
+    i2c2_master_send(0x9);
+    i2c2_master_send(0b00000001);
+    i2c2_master_stop();
 }
 
 unsigned char get_expander()    {
