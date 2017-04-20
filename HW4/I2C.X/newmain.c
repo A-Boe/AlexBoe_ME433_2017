@@ -74,7 +74,7 @@ int main() {
         while(_CP0_GET_COUNT() < CLOCK/2/1000)  {;}
         
         pins = get_expander();
-        if(pins&1 == 0b1)   {
+        if((pins >> 7)&1 == 1)   {
             set_expander(0,1);
             
         }
