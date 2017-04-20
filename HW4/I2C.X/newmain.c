@@ -88,6 +88,13 @@ void init_expander()    {
     ANSELBbits.ANSB2 = 0;
     ANSELBbits.ANSB3 = 0;
     i2c2_master_setup();
+    
+    i2c2_master_start();
+    i2c2_master_send(SLAVE_ADDR);
+    i2c2_master_send(0x0);
+    i2c2_master_send(0b11110000);
+    i2c2_master_stop();
+    
     i2c2_master_start();
     i2c2_master_send(SLAVE_ADDR);
     i2c2_master_send(0x6);
