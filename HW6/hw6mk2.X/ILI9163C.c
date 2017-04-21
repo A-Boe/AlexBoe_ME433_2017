@@ -1,12 +1,3 @@
-/* 
- * File:   main.c
- * Author: Alex
- *
- * Created on April 20, 2017, 8:42 PM
- */
-
-#include <stdio.h>
-#include <stdlib.h>
 // functions to operate the ILI9163C on the PIC32
 // adapted from https://github.com/sumotoy/TFT_ILI9163C/blob/master/TFT_ILI9163C.cpp
 
@@ -198,11 +189,3 @@ void LCD_clearScreen(unsigned short color) {
 			LCD_data16(color);
 		}
 }
-/*
- * 
- */
-int main(int argc, char** argv) {
-
-    return (EXIT_SUCCESS);
-}
-
