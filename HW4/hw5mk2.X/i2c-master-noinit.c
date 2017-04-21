@@ -4,7 +4,7 @@
 // I2C pins need pull-up resistors, 2k-10k
 #include<xc.h>
 #include<sys/attribs.h>
-#include "I2C-NOINT.h"
+#include "i2c-master-noinit.h"
 
 void i2c2_master_setup(void) {
   I2C2BRG = 0xE9;            // I2CBRG = [1/(2*Fsck) - PGD]*Pblck - 2 
@@ -24,7 +24,7 @@ void i2c2_master_restart(void) {
 }
 
 void i2c2_master_send(unsigned char byte) { // send a byte to slave
-  I2C1TRN = byte;                   // if an address, bit 0 = 0 for write, 1 for read
+  I2C2TRN = byte;                   // if an address, bit 0 = 0 for write, 1 for read
   while(I2C2STATbits.TRSTAT) { ; }  // wait for the transmission to finish
   if(I2C2STATbits.ACKSTAT) {        // if this is high, slave has not acknowledged
     // ("I2C2 Master: failed to receive ACK\r\n");

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/default/production/I2C.X.production.elf">                 
+  <executable name="dist/default/production/hw5mk2.X.production.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>132240</length>                 
-      <used>2780</used>                     
-      <free>129460</free>                     
+      <used>2856</used>                     
+      <free>129384</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 

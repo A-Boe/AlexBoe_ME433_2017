@@ -1,7 +1,7 @@
 #include<xc.h>           // processor SFR definitions
 #include<sys/attribs.h>  // __ISR macro
 #include<stdio.h>
-#include "I2C-NOINT.h"
+#include "i2c-master-noinit.h"
 
 // DEVCFG0
 #pragma config DEBUG = OFF // no debugging
@@ -66,15 +66,15 @@ int main() {
     unsigned char pin_values;
     
     while(1)    {
-//        
-//        pin_values = get_expander();
-//        
-//        if  ((pin_values >> 7) == 1)   {  // if GP7 is HIGH
-//            set_expander(0, 1);     // outputs GP0 as HIGH
-//        }
-//        else    {
-//            set_expander(0, 0);     // outputs GP0 as LOW
-//        }
+        
+        pin_values = get_expander();
+        
+        if  ((pin_values >> 7) == 1)   {  // if GP7 is HIGH
+            set_expander(0, 1);     // outputs GP0 as HIGH
+        }
+        else    {
+            set_expander(0, 0);     // outputs GP0 as LOW
+        }
     }
 }
 
