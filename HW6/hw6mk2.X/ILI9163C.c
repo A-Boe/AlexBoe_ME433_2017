@@ -210,3 +210,11 @@ void LCD_writeChar(unsigned char c, unsigned short x, unsigned short y, unsigned
         }
     }
 }
+
+void LCD_writeString(char *msg, unsigned short x, unsigned short y, unsigned short c1, unsigned short c2){
+    int i=0;
+    while(msg[i] != 0){
+        LCD_writeChar(msg[i], x+(6*i),y,c1,c2);
+        i++;
+    }
+}
