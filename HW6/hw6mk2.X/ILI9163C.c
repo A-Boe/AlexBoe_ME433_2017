@@ -204,7 +204,7 @@ void LCD_writeChar(unsigned char c, unsigned short x, unsigned short y, unsigned
                     LCD_drawPixel(x+i,y+j,c1);
                 }
                 else{
-                    Lcd_drawPixel(x+i,y+j,c2);
+                    LCD_drawPixel(x+i,y+j,c2);
                 }
             }
         }
