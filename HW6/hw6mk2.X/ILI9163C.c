@@ -218,3 +218,12 @@ void LCD_writeString(char *msg, unsigned short x, unsigned short y, unsigned sho
         i++;
     }
 }
+
+void LCD_writeBar(unsigned short x, unsigned short y, unsigned short c1, unsigned short len, unsigned shoer wid){
+    int i,j;
+    for(i=0;i<=len;i++){
+        for(j=0;j<=wid;j++){
+            LCD_drawPixel((x+i),(y+j),c1);
+        }
+    }
+}
