@@ -227,3 +227,11 @@ void LCD_writeBar(unsigned short x, unsigned short y, unsigned short c1, unsigne
         }
     }
 }
+
+unsigned int LCD_msgLen(char *msg){
+    int i=0;
+    while(msg[i] !=0){
+        i++;
+    }
+    return i;
+}
