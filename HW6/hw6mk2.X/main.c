@@ -51,7 +51,7 @@
 #define TEXT WHITE          // Text LCD color is "WHITE"        (0xFFFF)
 
 int main() {
-__builtin_disablee_interrupts();
+__builtin_disable_interrupts();
 __builtin_mtc0(_CP0_CONFIG,_CP0_CONFIG_SELECT,0xa4210583);
 BMXCONbits.BMXWSDRM = 0x0;
 INTCONbits.MVEC = 0x1;
