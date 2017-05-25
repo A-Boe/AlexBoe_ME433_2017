@@ -189,3 +189,24 @@ void LCD_clearScreen(unsigned short color) {
 			LCD_data16(color);
 		}
 }
+
+
+void LCD_writeChar(unsigned char c, unsigned short x, unsigned short y, unsigned short c1, unsigned short c2){
+    char row = c - 0x20;
+    int i,j;
+    char col, val;
+    for (i=0;i<5;i++){
+        col = ASCII[row][i];
+        for(j=0;j<8;j++){
+            if(((x+i)<128)&((y+j)<128)){
+                val = (col >> j) & 1;
+                if(val==1){
+                    LCD_drawPixel(x+i,y+j,c1);
+                }
+                else{
+                    Lcd_drawPixel(x+i,y+j,c2);
+                }
+            }
+        }
+    }
+}
