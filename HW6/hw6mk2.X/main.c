@@ -51,7 +51,52 @@
 #define TEXT WHITE          // Text LCD color is "WHITE"        (0xFFFF)
 
 int main() {
+__builtin_disablee_interrupts();
+__builtin_mtc0(_CP0_CONFIG,_CP0_CONFIG_SELECT,0xa4210583);
+BMXCONbits.BMXWSDRM = 0x0;
+INTCONbits.MVEC = 0x1;
+DDPCONbits.JTAGEN = 0;
 
+SPI1_init();
+LCD_init();
+__builtin_enable_interrupts();
+
+LCD_clearScreen(BCKGRND);
+
+char msg[100];
+char num[20];
+char fps[20];
+sprintf(msg, "hello world!");
+
+unsigned int msgLen = 6*LCD_msgLen(msg);
+int i = 0;
+int fps_count;
+
+LCD_writeString(msg,28,32,TEXT,BCKGRND);
+
+_CP0_SET_COUNT(0);
+
+while(1){
+_CP0_SET_COUNT(0);
+sprintf(num,"%d  ",(i-50));
+LCD_writeString(num, 28+msgLen, 32, TEXT, BCKGRND);
+LCD_writeBar(64,48,TEXT,1,5);
+if(i<50){
+    LCD_writeBar(14+i,48,TEXT,(50-i),5);
+    LCD_writeBar(14,48, BCKGRND,i,5);
+}
+else{
+    LCD_writeBar(64,48,TEXT,(i-50),5);
+}
+i++;
+if (i==100){
+    i=0;
+    LCD_writeBar(64,48,BCKGRND,50,5);
+}
+fps_count=(CLOCK/2)/_CP0_GET_COUNT();
+sprintf(fps,"FPS: %d ",fps_count);
+LCD_writeString(fps,48,64,TEXT,BCKGRND);
 
 }
 
+}
