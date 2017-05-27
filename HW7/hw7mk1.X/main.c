@@ -87,5 +87,19 @@ while(1){
         
     }
     else{
+        IMU_read_multiple(0x20, IMU_data, 14);
+        int i;
+        for(i=0;i<7;i++){
+            ACC_data[i] = ((IMU_data[(2*i)+1] << 8) | (IMU_data{2*i}));
+        }
+        
+        LCD_writeBar(60, 60, TEXT, 4, 4);
+        
+        if(ACC_data[4] < 0){
+            barx = (-1)*ACC_data[4]/VAL;
+        
+        LCD_writeBar(64,60,TEXT,barx,4);
+        LCD_writeBar(64+barx,60,BCKGRND,len2-barx,4);
+        LCD_writeBar(59-len2,60,BCKGRND,len2,4);}
         
     }
