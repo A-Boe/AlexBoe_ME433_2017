@@ -64,18 +64,14 @@ __builtin_enable_interrupts();
 
 LCD_clearScreen(BCKGRND);
 
-char msg[100];
-char num[20];
-char fps[20];
-sprintf(msg, "hello world!");
+unsigned char msg[100];
+unsigned char msg2[100];
+unsigned char IMU_data[14];
+unsigned char value;
+signed short ACC_data[7];
+signed short len2 = MAX_VAL/VAL;
+signed short barx, bary;
 
-unsigned int msgLen = 6*LCD_msgLen(msg);
-int i = 0;
-int fps_count;
-
-LCD_writeString(msg,28,32,TEXT,BCKGRND);
-
-_CP0_SET_COUNT(0);
 
 while(1){
 _CP0_SET_COUNT(0);
