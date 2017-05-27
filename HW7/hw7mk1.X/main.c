@@ -72,28 +72,20 @@ signed short ACC_data[7];
 signed short len2 = MAX_VAL/VAL;
 signed short barx, bary;
 
-
 while(1){
-_CP0_SET_COUNT(0);
-sprintf(num,"%d  ",(i-50));
-LCD_writeString(num, 28+msgLen, 32, TEXT, BCKGRND);
-LCD_writeBar(64,48,TEXT,1,5);
-if(i<50){
-    LCD_writeBar(14+i,48,TEXT,(50-i),5);
-    LCD_writeBar(14,48, BCKGRND,i,5);
-}
-else{
-    LCD_writeBar(64,48,TEXT,(i-50),5);
-}
-i++;
-if (i==100){
-    i=0;
-    LCD_writeBar(64,48,BCKGRND,50,5);
-}
-fps_count=(CLOCK/2)/_CP0_GET_COUNT();
-sprintf(fps,"FPS: %d ",fps_count);
-LCD_writeString(fps,48,64,TEXT,BCKGRND);
-
-}
-
-}
+    while(_CP0_GET_COUNT()<CLOCK<4800000) {;}
+    
+    _CP0_SET_COUNT(0);
+    
+    value = IMU_check();
+    
+    if(value != CHECK){
+        while (_CP0_GET_COUNT()<CLOCK/2){;}
+        _CP0_SET_COUNT(0);
+        
+        LATAbits.LATA4 = !LATAbits.LATA4;
+        
+    }
+    else{
+        
+    }
