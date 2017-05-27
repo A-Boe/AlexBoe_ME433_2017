@@ -42,6 +42,9 @@
 #define CLOCK 48000000
 #define BCKGRND BLUE        // Background LCD color is "BLUE"   (0x001F)
 #define TEXT WHITE          // Text LCD color is "WHITE"        (0xFFFF)
+#define MAX_VAL 32768
+#define VAL 256
+#define CHECK 0b01101001
 
 int main() {
 __builtin_disable_interrupts();
@@ -50,8 +53,13 @@ BMXCONbits.BMXWSDRM = 0x0;
 INTCONbits.MVEC = 0x1;
 DDPCONbits.JTAGEN = 0;
 
+TRISAbits.TRISA4 = 0;
+LATAbits.LATA4 = 1;
+
 SPI1_init();
 LCD_init();
+IMU_init();
+
 __builtin_enable_interrupts();
 
 LCD_clearScreen(BCKGRND);
