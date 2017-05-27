@@ -116,6 +116,12 @@ while(1){
             LCD_writeBar(60,64+bary,BCKGRND,4,len2-bary);
             LCD_writeBar(60,59-len2,BCKGRND,4,len2);}
         
+        else{
+            bary = ACC_data[5]/VAL;
+        
+            LCD_writeBar(60,60-bary,TEXT,4,bary);
+            LCD_writeBar(60,60-len2,BCKGRND,4,len2-bary);
+            LCD_writeBar(60,65,BCKGRND,4,len2);}
         }
         }
     }
