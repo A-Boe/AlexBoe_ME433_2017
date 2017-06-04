@@ -1,23 +1,10 @@
-/* 
- * File:   IMU.h
- * Author: Alex
- *
- * Created on June 4, 2017, 4:15 PM
- */
-
 #ifndef IMU_H
-#define	IMU_H
+#define IMU_H
+#include<xc.h>
+#include<sys/attribs.h>
 
-#ifdef	__cplusplus
-extern "C" {
+void IMU_init(void);
+void IMU_read_multiple(unsigned char reg, unsigned char *data, int len);
+unsigned char IMU_check(void);
+
 #endif
-
-
-
-
-#ifdef	__cplusplus
-}
-#endif
-
-#endif	/* IMU_H */
-
