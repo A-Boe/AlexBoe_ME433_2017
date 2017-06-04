@@ -63,6 +63,9 @@
           <itemPath>../../../../../../../../../../microchip/harmony/v1_09/framework/system/system.h</itemPath>
         </logicalFolder>
       </logicalFolder>
+      <itemPath>../src/IMU.h</itemPath>
+      <itemPath>../src/i2c.h</itemPath>
+      <itemPath>../src/ILI9163C.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -107,6 +110,9 @@
           </logicalFolder>
         </logicalFolder>
       </logicalFolder>
+      <itemPath>../src/ILI9163C.c</itemPath>
+      <itemPath>../src/IMU.c</itemPath>
+      <itemPath>../src/i2c.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -131,7 +137,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
-        <languageToolchainVersion>1.42</languageToolchainVersion>
+        <languageToolchainVersion>1.40</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <compileType>
