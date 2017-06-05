@@ -1,19 +1,5 @@
-// functions to operate the ILI9163C on the PIC32
-// adapted from https://github.com/sumotoy/TFT_ILI9163C/blob/master/TFT_ILI9163C.cpp
-
-// pin connections:
-// VCC - 3.3V
-// GND - GND
-// CS - B7
-// RESET - 3.3V
-// A0 - B15
-// SDA - A1
-// SCK - B14
-// LED - 3.3V
-
-// B8 is turned into SDI1 but is not used or connected to anything
-
 #include <xc.h>
+#include <stdio.h>
 #include "ILI9163C.h"
 
 void SPI1_init() {
@@ -190,48 +176,54 @@ void LCD_clearScreen(unsigned short color) {
 		}
 }
 
-
-void LCD_writeChar(unsigned char c, unsigned short x, unsigned short y, unsigned short c1, unsigned short c2){
-    char row = c - 0x20;
-    int i,j;
-    char col, val;
-    for (i=0;i<5;i++){
-        col = ASCII[row][i];
-        for(j=0;j<8;j++){
-            if(((x+i)<128)&((y+j)<128)){
-                val = (col >> j) & 1;
-                if(val==1){
-                    LCD_drawPixel(x+i,y+j,c1);
+void LCD_dispChar(unsigned char c, unsigned short x, unsigned short y, unsigned short color1, unsigned short color2) { // draw character 'c' starting at x,y in color1 with background color2
+    char row = c - 0x20; // in order to access rows of ASCII table in header file
+    int i;
+    int j;
+    char pix;
+    
+    for (i=0; i<5; i=i+1) {
+        for (j=0; j<9; j=j+1) {
+            if (((x+i)<128) & ((y+j)<128)) { // ensure that pixel to be written to exists
+                pix = ASCII[row][i];
+                pix = (pix >> j) & 1;
+                if (pix == 1) {
+                    LCD_drawPixel( x+i, y+j, color1); // set '1' pixels from ASCII table to color1
+                } else {
+                    LCD_drawPixel( x+i, y+j, color2); // set '0' pixels from ASCII table to color2 (background)
                 }
-                else{
-                    LCD_drawPixel(x+i,y+j,c2);
-                }
-            }
+            } 
         }
     }
 }
 
-void LCD_writeString(char *msg, unsigned short x, unsigned short y, unsigned short c1, unsigned short c2){
-    int i=0;
-    while(msg[i] != 0){
-        LCD_writeChar(msg[i], x+(6*i),y,c1,c2);
-        i++;
+
+void LCD_dispString(char*msg, unsigned short x, unsigned short y, unsigned short color1, unsigned short color2) { // draw string 'c' starting at x,y in color1 with background color2
+    int i = 0;
+    
+    while (msg[i] != 0) {
+        LCD_dispChar( (unsigned char) msg[i], (x+(5*i)), y, color1, color2);
+        i += 1;
     }
 }
 
-void LCD_writeBar(unsigned short x, unsigned short y, unsigned short c1, unsigned short len, unsigned short wid){
-    int i,j;
-    for(i=0;i<=len;i++){
-        for(j=0;j<=wid;j++){
-            LCD_drawPixel((x+i),(y+j),c1);
+
+void LCD_drawBar_x(unsigned short x, unsigned short y, unsigned short color, unsigned short len, unsigned short wid) { // draw a bar of 'color', 'len' by 'wid' starting at x,y
+    int i;
+    int j;
+    for (i=0; i<=len; i+=1) {
+        for (j=0; j<=wid; j+=1) {
+            LCD_drawPixel((x+i), (y+j), color);
         }
     }
 }
 
-unsigned int LCD_msgLen(char *msg){
-    int i=0;
-    while(msg[i] !=0){
-        i++;
+void LCD_drawBar_y(unsigned short x, unsigned short y, unsigned short color, unsigned short len, unsigned short wid) { // draw a bar of 'color', 'len' by 'wid' starting at x,y
+    int i;
+    int j;
+    for (i=0; i<=len; i+=1) {
+        for (j=0; j<=wid; j+=1) {
+            LCD_drawPixel((x+j), (y+i), color);
+        }
     }
-    return i;
 }

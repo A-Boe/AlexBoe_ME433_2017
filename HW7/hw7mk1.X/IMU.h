@@ -1,10 +1,11 @@
 #ifndef IMU_H
-#define IMU_H
-#include<xc.h>
-#include<sys/attribs.h>
+#define	IMU_H
 
-void IMU_init(void);
-void IMU_read_multiple(unsigned char reg, unsigned char *data, int len);
-unsigned char IMU_check(void);
+#include<xc.h>           // processor SFR definitions
+#include<sys/attribs.h>  // __ISR macro
 
-#endif
+void IMU_init(void); // set up IMU sensor
+
+void IMU_read_multiple(unsigned char reg, unsigned char * data, int length); // read multiple consecutive registers
+
+#endif	/* IMU_H */
