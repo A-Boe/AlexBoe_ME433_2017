@@ -51,6 +51,7 @@ SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES
 #include "app.h"
 #include <stdio.h>
 #include <xc.h>
+#include <math.h>
 
 // *****************************************************************************
 // *****************************************************************************
@@ -67,6 +68,8 @@ char rx[64]; // the raw data
 int rxPos = 0; // how much data has been stored
 int gotRx = 0; // the flag
 int rxVal = 0; // a place to store the int that was received
+signed int speed1 = 0;
+signed int speed2 = 0;
 
 // *****************************************************************************
 /* Application Data
@@ -337,7 +340,34 @@ void APP_Initialize(void) {
     appData.readBuffer = &readBuffer[0];
 
     startTime = _CP0_GET_COUNT();
+    
+      // put these initializations in APP_Initialize()
+    RPA0Rbits.RPA0R = 0b0101; // A0 is OC1
+    TRISAbits.TRISA1 = 0;
+    LATAbits.LATA1 = 0; // A1 is the direction pin to go along with OC1
+
+    RPB2Rbits.RPB2R = 0b0101; // B2 is OC4
+    TRISBbits.TRISB3 = 0;
+    LATBbits.LATB3 = 0; // B3 is the direction pin to go along with OC4
+    
+     // also put these in APP_Initialize()
+    T2CONbits.TCKPS = 2; // prescaler N=4 
+    PR2 = 1200 - 1; // 10kHz
+    TMR2 = 0;
+    OC1CONbits.OCM = 0b110; // PWM mode without fault pin; other OC1CON bits are defaults
+    OC4CONbits.OCM = 0b110;
+    OC1RS = 0; // max allowed value is 1119
+    OC1R = 0; // read-only initial value
+    OC4RS = 0; // max allowed value is 1119
+    OC4R = 0; // read-only initial value
+    T2CONbits.ON = 1;
+    OC1CONbits.ON = 1;
+    OC4CONbits.ON = 1;
 }
+
+// Start Motor Control Here
+
+// Set motor pins and directions 
 
 /******************************************************************************
   Function:
@@ -378,6 +408,13 @@ void APP_Tasks(void) {
             break;
 
         case APP_STATE_SCHEDULE_READ:
+            
+            /*// somewhere in APP_Tasks(), probably in case APP_STATE_SCHEDULE_READ
+                // when you read data from the host
+                LATAbits.LATA1 = 1; // direction
+                OC1RS = 600; // velocity, 50%
+                LATBbits.LATB3 = 0; // direction
+                OC4RS = 600; // velocity, 50%*/
 
             if (APP_StateReset()) {
                 break;
@@ -401,8 +438,12 @@ void APP_Tasks(void) {
                     // if you got a newline
                     if (appData.readBuffer[ii] == '\n' || appData.readBuffer[ii] == '\r') {
                         rx[rxPos] = 0; // end the array
-                        sscanf(rx, "%d", &rxVal); // get the int out of the array
+                        sscanf(rx, "%d,%d", &speed1,&speed2); // get the *speeds* out of the array
                         gotRx = 1; // set the flag
+                        
+                        // Control the motor
+                        
+                        
                         break; // get out of the while loop
                     } else if (appData.readBuffer[ii] == 0) {
                         break; // there was no newline, get out of the while loop
@@ -452,7 +493,7 @@ void APP_Tasks(void) {
             appData.state = APP_STATE_WAIT_FOR_WRITE_COMPLETE;
 
             if (gotRx) {
-                len = sprintf(dataOut, "got: %d\r\n", rxVal);
+                len = sprintf(dataOut, "got: %d %d\r\n", speed1, speed2);
                 i++;
                 USB_DEVICE_CDC_Write(USB_DEVICE_CDC_INDEX_0,
                         &appData.writeTransferHandle,
